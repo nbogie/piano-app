@@ -25,6 +25,7 @@ export default function Piano(): JSX.Element {
   return (
     <>
       <h1>Piano App</h1>
+      <p>Click the piano first to start using the keys</p>
       {notes.map((note) => (
         <PianoKey key={note} name={note} />
       ))}

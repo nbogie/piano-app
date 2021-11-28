@@ -44,9 +44,51 @@ export default function PianoKey(props: PianoKeyProps): JSX.Element {
   //   playNote();
   // };
 
+  const handleKeyPress = (event: { key: string }) => {
+    switch (event.key) {
+      case "z":
+        playC4();
+        break;
+      case "s":
+        playCsharp4();
+        break;
+      case "x":
+        playD4();
+        break;
+      case "d":
+        playDsharp4();
+        break;
+      case "c":
+        playE4();
+        break;
+      case "v":
+        playF4();
+        break;
+      case "g":
+        playFsharp4();
+        break;
+      case "b":
+        playG4();
+        break;
+      case "h":
+        playGsharp4();
+        break;
+      case "n":
+        playA4();
+        break;
+      case "j":
+        playAsharp4();
+        break;
+      case "m":
+        playB4();
+        break;
+    }
+  };
+
   return (
     <button
       className={props.name.includes("#") ? "key sharp" : "key natural"}
+      onKeyPress={handleKeyPress}
       onClick={() => {
         switch (props.name) {
           case "C4":
