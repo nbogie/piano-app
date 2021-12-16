@@ -26,6 +26,7 @@ export default function Piano(): JSX.Element {
     <>
       <h1>Piano App</h1>
       <p>Click the piano first to start using the keys</p>
+      <p>Press 'z' for middle C, 's' for C#, 'x' for 'D', etc.</p>
       {notes.map((note) => (
         <PianoKey key={note} name={note} />
       ))}

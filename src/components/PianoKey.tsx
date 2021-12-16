@@ -1,3 +1,4 @@
+import { useState } from "react";
 import useSound from "use-sound";
 import C4 from "../sounds/C4.wav";
 import Csharp4 from "../sounds/Csharp4.wav";
@@ -16,8 +17,6 @@ interface PianoKeyProps {
   name: string;
 }
 
-// const noteFiles = { C4, D4, E4, F4, G4 };
-
 export default function PianoKey(props: PianoKeyProps): JSX.Element {
   // need to figure out how to refactor this code so I can map through and have it more scalable
   const [playC4] = useSound(C4);
@@ -33,16 +32,54 @@ export default function PianoKey(props: PianoKeyProps): JSX.Element {
   const [playAsharp4] = useSound(Asharp4);
   const [playB4] = useSound(B4);
 
-  //   const handleKeyPressC4 = (event: { key: string }) => {
-  //     if (event.key === "a") {
-  //       console.log("You pressed a!");
-  //       playC4();
-  //     }
-  //   };
+  const [active, setActive] = useState(false);
 
-  // const handlePlaySound = () => {
-  //   playNote();
-  // };
+  const handleActive = () => {
+    setActive(!active);
+  };
+
+  const handleClick = () => {
+    switch (props.name) {
+      case "C4":
+        playC4();
+        break;
+      case "Csharp4":
+        playCsharp4();
+        break;
+      case "D4":
+        playD4();
+        break;
+      case "D#4":
+        playDsharp4();
+        break;
+      case "E4":
+        playE4();
+        break;
+      case "F4":
+        playF4();
+        break;
+      case "F#4":
+        playFsharp4();
+        break;
+      case "G4":
+        playG4();
+        break;
+      case "G#4":
+        playGsharp4();
+        break;
+      case "A4":
+        playA4();
+        break;
+      case "A#4":
+        playAsharp4();
+        break;
+      case "B4":
+        playB4();
+        break;
+      default:
+        playCsharp4();
+    }
+  };
 
   const handleKeyPress = (event: { key: string }) => {
     switch (event.key) {
@@ -86,51 +123,17 @@ export default function PianoKey(props: PianoKeyProps): JSX.Element {
   };
 
   return (
-    <button
-      className={props.name.includes("#") ? "key sharp" : "key natural"}
-      onKeyPress={handleKeyPress}
-      onClick={() => {
-        switch (props.name) {
-          case "C4":
-            playC4();
-            break;
-          case "Csharp4":
-            playCsharp4();
-            break;
-          case "D4":
-            playD4();
-            break;
-          case "D#4":
-            playDsharp4();
-            break;
-          case "E4":
-            playE4();
-            break;
-          case "F4":
-            playF4();
-            break;
-          case "F#4":
-            playFsharp4();
-            break;
-          case "G4":
-            playG4();
-            break;
-          case "G#4":
-            playGsharp4();
-            break;
-          case "A4":
-            playA4();
-            break;
-          case "A#4":
-            playAsharp4();
-            break;
-          case "B4":
-            playB4();
-            break;
-          default:
-            playCsharp4();
+    <>
+      <button
+        className={
+          (props.name.includes("#") ? "sharp" : "natural") +
+          (active ? " active" : "")
         }
-      }}
-    ></button>
+        onKeyPress={handleKeyPress}
+        onClick={handleClick}
+        onKeyDown={handleActive}
+        onKeyUp={handleActive}
+      ></button>
+    </>
   );
 }

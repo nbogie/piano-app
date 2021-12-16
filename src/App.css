@@ -12,3 +12,7 @@
   height: 100px;
   width: 30px;
 }
+
+.active {
+  border: blue solid 3px;
+}
