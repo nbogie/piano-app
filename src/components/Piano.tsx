@@ -7,19 +7,20 @@
 import PianoKey from "./PianoKey";
 
 export default function Piano(): JSX.Element {
-  const notes = [
-    "C4",
-    "C#4",
-    "D4",
-    "D#4",
-    "E4",
-    "F4",
-    "F#4",
-    "G4",
-    "G#4",
-    "A4",
-    "A#4",
-    "B4",
+
+  const keysData = [
+    { note: "C4", soundPath: "/sounds/C4.wav", keyboardKey: "z" },
+    { note: "C#4", soundPath: "/sounds/Csharp4.wav", keyboardKey: "s" },
+    { note: "D4", soundPath: "/sounds/D4.wav", keyboardKey: "x" },
+    { note: "D#4", soundPath: "/sounds/Dsharp4.wav", keyboardKey: "d" },
+    { note: "E4", soundPath: "/sounds/E4.wav", keyboardKey: "c" },
+    { note: "F4", soundPath: "/sounds/F4.wav", keyboardKey: "v" },
+    { note: "F#4", soundPath: "/sounds/Fsharp4.wav", keyboardKey: "g" },
+    { note: "G4", soundPath: "/sounds/G4.wav", keyboardKey: "b" },
+    { note: "G#4", soundPath: "/sounds/Gsharp4.wav", keyboardKey: "h" },
+    { note: "A4", soundPath: "/sounds/A4.wav", keyboardKey: "n" },
+    { note: "A#4", soundPath: "/sounds/Asharp4.wav", keyboardKey: "j" },
+    { note: "B4", soundPath: "/sounds/B4.wav", keyboardKey: "m" }
   ];
 
   return (
@@ -27,8 +28,13 @@ export default function Piano(): JSX.Element {
       <h1>Piano App</h1>
       <p>Click the piano first to start using the keys</p>
       <p>Press 'z' for middle C, 's' for C#, 'x' for 'D', etc.</p>
-      {notes.map((note) => (
-        <PianoKey key={note} name={note} />
+      {keysData.map((keyData) => (
+        <PianoKey
+          key={keyData.note}
+          name={keyData.note}
+          soundPath={keyData.soundPath}
+          keyboardKey={keyData.keyboardKey}
+        />
       ))}
     </>
   );
