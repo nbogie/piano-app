@@ -1,44 +1,39 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import useSound from "use-sound";
 
 interface PianoKeyProps {
   name: string;
   keyboardKey: string;
   soundPath: string;
+  isPlaying: boolean;
 }
 
 export default function PianoKey(props: PianoKeyProps): JSX.Element {
-  const [playFn] = useSound(props.soundPath);
+  const [playFn, { stop }] = useSound(props.soundPath);
+  const isPlaying = props.isPlaying;
 
-  const [active, setActive] = useState(false);
-
-  function playNamedNote(noteName: string) {
-    playFn();
-  }
+  useEffect(() => {
+    if (isPlaying) {
+      playFn();
+    } else {
+      //We could stop the sound now, on key up.  But we don't!
+      false && stop();
+    }
+  }, [isPlaying, playFn, stop]);
 
   const handleClick = () => {
-    playNamedNote(props.name);
-  };
-
-  const handleActive = () => {
-    setActive(!active);
+    playFn();
   };
 
 
-  const handleKeyPress = (event: { key: string }) => {
-    playNamedNote(event.key);
-  };
 
   return (
     <>
       <button
         className={
           (props.name.includes("#") ? "sharp" : "natural") +
-          (active ? " active" : "")
+          (isPlaying ? " active" : "")
         }
-        onKeyPress={handleKeyPress}
-        onKeyDown={handleActive}
-        onKeyUp={handleActive}
         onClick={handleClick}
       >{props.keyboardKey}</button>
     </>

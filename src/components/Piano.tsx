@@ -4,9 +4,11 @@
 // 2. Make buttons play sounds when keys on keyboard are pressed
 // 3. Style with CSS to look like a piano
 
+import { useState } from "react";
 import PianoKey from "./PianoKey";
 
 export default function Piano(): JSX.Element {
+  const [notesPlaying, setNotesPlaying] = useState<{ [noteName: string]: boolean }>({});
 
   const keysData = [
     { note: "C4", soundPath: "/sounds/C4.wav", keyboardKey: "z" },
@@ -23,19 +25,42 @@ export default function Piano(): JSX.Element {
     { note: "B4", soundPath: "/sounds/B4.wav", keyboardKey: "m" }
   ];
 
+  function updateNotePlaying(eventKey: string, newPlayingState: boolean) {
+    const matchingKeyData = keysData.find(data => data.keyboardKey === eventKey);
+    if (matchingKeyData) {
+      const copyOfNotesPlaying = { ...notesPlaying };
+      copyOfNotesPlaying[matchingKeyData.note] = newPlayingState;
+      setNotesPlaying(copyOfNotesPlaying);
+    }
+
+  }
+  function handleKeyDown(key: string) {
+    updateNotePlaying(key, true)
+  }
+
+  function handleKeyUp(key: string) {
+    updateNotePlaying(key, false)
+  }
+
+
   return (
     <>
       <h1>Piano App</h1>
       <p>Click the piano first to start using the keys</p>
-      <p>Press 'z' for middle C, 's' for C#, 'x' for 'D', etc.</p>
-      {keysData.map((keyData) => (
-        <PianoKey
-          key={keyData.note}
-          name={keyData.note}
-          soundPath={keyData.soundPath}
-          keyboardKey={keyData.keyboardKey}
-        />
-      ))}
+      <div className='piano'
+        onKeyDown={(event) => handleKeyDown(event.key)}
+        onKeyUp={(event) => handleKeyUp(event.key)}
+      >
+        {keysData.map((keyData) => (
+          <PianoKey
+            key={keyData.note}
+            name={keyData.note}
+            soundPath={keyData.soundPath}
+            keyboardKey={keyData.keyboardKey}
+            isPlaying={notesPlaying[keyData.note] ?? false}
+          />
+        ))}
+      </div>
     </>
   );
 }
